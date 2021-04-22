@@ -1,5 +1,3 @@
-const helmet = require('helmet');
-const compression = require('compression');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,11 +8,15 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog'); // Import routes for "catalog" area of the site
 
+const helmet = require('helmet');
+const compression = require('compression');
+
 var app = express();
 
 // Set up mongoose connection
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://Ricardo:xwcQinDiheqq1dev@cluster0.i0wq0.mongodb.net/local-library?retryWrites=true&w=majority';
+const mongoose = require('mongoose');
+const dev_db_url = 'mongodb+srv://Ricardo:xwcQinDiheqq1dev@cluster0.i0wq0.mongodb.net/local-library?retryWrites=true&w=majority';
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB , { useNewUrlParser: true , useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on('error' , console.error.bind(console , 'MongoDB connection error:'));
